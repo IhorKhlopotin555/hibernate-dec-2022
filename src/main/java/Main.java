@@ -1,3 +1,4 @@
+import models.Card;
 import models.Passport;
 import models.User;
 import org.hibernate.Session;
@@ -6,8 +7,9 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.query.Query;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -19,6 +21,7 @@ public class Main {
         Metadata metadata = new MetadataSources(serviceRegistry)
                 .addAnnotatedClass(User.class)
                 .addAnnotatedClass(Passport.class)
+                .addAnnotatedClass(Card.class)
                 .getMetadataBuilder()
                 .build();
 
@@ -30,35 +33,20 @@ public class Main {
 
         session.beginTransaction();
 
-        session.save(new User("vasya", new Passport("fwfewfewf")));
-        session.save(new User("petya", new Passport("ffwefwef")));
-        session.save(new User("kolya", new Passport("fwfewfw")));
-//
-//
-//        session.getTransaction().commit();
-        //List<User> users = session.createNativeQuery("select * from user_table", User.class).getResultList();
-//        List<User> users = session
-//                .createQuery("select u from User u where u.id>:id and u.name=:name", User.class)
-//                .setParameter("id", 2)
-//                .setParameter("name","petya")
-//                .getResultList();
-//        System.out.println(users);
 
-//        User user = session.get(User.class, 1);
-//        System.out.println(user);
-//        user.setName("gijijog");
+        session.save(new User("vasya", new Passport("asd2323232"), Arrays.asList(new Card(42343432), new Card(42346432L))));
+        session.save(new User("petya", new Passport("a2fdsad3232"), Arrays.asList(new Card(42353432), new Card(42348432L))));
+        session.save(new User("anya", new Passport("aqwdq323232"), Arrays.asList(new Card(42363432), new Card(423494432L))));
+        session.save(new User("sanya", new Passport("aqwe23232"), Arrays.asList(new Card(4234832), new Card(423430432L))));
+
+        session.getTransaction().commit();
 //
-//        session.beginTransaction();
-//        //session.update(user);
-//        //session.delete(user);
-//
-//        session.getTransaction().commit();
-//
-//        List<Passport> resultList = session.createQuery("select u.passport from User u", Passport.class).getResultList();
-//        System.out.println(resultList);
-//
-//        List<User> users = session.createQuery("select u from User u", User.class).getResultList();
-//        System.out.println(users.get(0).getPassport());
+//        List<Passport> passports = session.createQuery("select p from Passport p", Passport.class).getResultList();
+//        passports.forEach(passport -> System.out.println(passport.getUser()));
+
+        List<User> users = session.createQuery("select u from User u", User.class).getResultList();
+        users.forEach(user -> System.out.println(user));
+
         session.close();
         sessionFactory.close();
     }

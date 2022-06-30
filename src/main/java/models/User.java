@@ -6,23 +6,31 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table(name = "user_table")
 @Getter
 @Setter
-@ToString(exclude = {"passport"})
+@ToString
 public class User implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int Id;
+    private String name;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "passport_id")
+    @ToString.Exclude
+    private Passport passport;
 
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private int id;
-@Column(name = "username")
-private String name;
-@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-@PrimaryKeyJoinColumn
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable( //create column
+            name = "user_cards",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "card_id")
 
-private Passport passport;
+    )
+    @ToString.Exclude
+    private List<Card> cards;
 
     public User() {
     }
@@ -31,16 +39,9 @@ private Passport passport;
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    public User(String name, Passport passport) {
+    public User(String name, Passport passport, List<Card> cards) {
         this.name = name;
         this.passport = passport;
+        this.cards = cards;
     }
 }

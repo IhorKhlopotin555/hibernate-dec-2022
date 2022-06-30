@@ -1,29 +1,24 @@
 package models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.io.Serializable;
-
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @ToString
-public class Passport implements Serializable {
+@NoArgsConstructor
+public class Passport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String series;
-
-
-    public Passport() {
-    }
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "passport")
+    private User user;
 
     public Passport(String series) {
         this.series = series;
