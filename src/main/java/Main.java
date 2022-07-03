@@ -1,14 +1,15 @@
-import models.Passport;
-import models.User;
+import models.Car;
+import models.DriverLicense;
+import models.Owner;
+import models.Type;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.query.Query;
 
-import java.util.List;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,8 +18,9 @@ public class Main {
                 .build();
 
         Metadata metadata = new MetadataSources(serviceRegistry)
-                .addAnnotatedClass(User.class)
-                .addAnnotatedClass(Passport.class)
+                .addAnnotatedClass(Car.class)
+                .addAnnotatedClass(Owner.class)
+                .addAnnotatedClass(DriverLicense.class)
                 .getMetadataBuilder()
                 .build();
 
@@ -30,35 +32,10 @@ public class Main {
 
         session.beginTransaction();
 
-        session.save(new User("vasya", new Passport("fwfewfewf")));
-        session.save(new User("petya", new Passport("ffwefwef")));
-        session.save(new User("kolya", new Passport("fwfewfw")));
-//
-//
-//        session.getTransaction().commit();
-        //List<User> users = session.createNativeQuery("select * from user_table", User.class).getResultList();
-//        List<User> users = session
-//                .createQuery("select u from User u where u.id>:id and u.name=:name", User.class)
-//                .setParameter("id", 2)
-//                .setParameter("name","petya")
-//                .getResultList();
-//        System.out.println(users);
+        Owner owner = new Owner("petya", Arrays.asList(new Car("daewoo", Type.B, 75, 2000, 2007), new Car ("Subaru", Type.B, 300, 7000, 2004)), new DriverLicense("f3323423"));
+        session.save(owner);
 
-//        User user = session.get(User.class, 1);
-//        System.out.println(user);
-//        user.setName("gijijog");
-//
-//        session.beginTransaction();
-//        //session.update(user);
-//        //session.delete(user);
-//
-//        session.getTransaction().commit();
-//
-//        List<Passport> resultList = session.createQuery("select u.passport from User u", Passport.class).getResultList();
-//        System.out.println(resultList);
-//
-//        List<User> users = session.createQuery("select u from User u", User.class).getResultList();
-//        System.out.println(users.get(0).getPassport());
+
         session.close();
         sessionFactory.close();
     }
