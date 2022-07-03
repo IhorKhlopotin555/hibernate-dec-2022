@@ -1,4 +1,5 @@
 import models.Card;
+import models.Passport;
 import models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +17,7 @@ public class Main {
         Metadata metadata = new MetadataSources(serviceRegistry)
                 .addAnnotatedClass(Card.class)
                 .addAnnotatedClass(User.class)
+                .addAnnotatedClass(Passport.class)
                 .getMetadataBuilder()
                 .build();
 

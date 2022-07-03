@@ -16,6 +16,11 @@ public class Card {
     private int id;
     private long number;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinTable(
+            name="user_card",
+            joinColumns = @JoinColumn(name = "card_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private User user;
 
     public Card(long number) {

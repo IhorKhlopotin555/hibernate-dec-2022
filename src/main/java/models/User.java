@@ -3,11 +3,10 @@ package models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,7 +18,25 @@ public class User {
     private int id;
     private String name;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "passport_id")
+    @ToString.Exclude
+    private Passport passport;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_card",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "card_id")
+    )
+    private List<Card> cards;
+
     public User(String name) {
         this.name = name;
+    }
+
+    public User(String name, Passport passport) {
+        this.name = name;
+        this.passport = passport;
     }
 }
