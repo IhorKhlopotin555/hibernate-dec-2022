@@ -21,7 +21,6 @@ public class Main {
                 .addAnnotatedClass(IdCode.class)
                 .addAnnotatedClass(Book.class)
                 .addAnnotatedClass(Car.class)
-                .addAnnotatedClass(LibraryCard.class)
                 .getMetadataBuilder()
                 .build();
 

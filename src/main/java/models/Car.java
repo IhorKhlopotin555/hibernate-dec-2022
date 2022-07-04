@@ -3,11 +3,9 @@ package models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -20,6 +18,14 @@ public class Car implements Serializable {
     private int id;
     private String model;
 
+    @ToString.Exclude
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "person_car",
+            joinColumns = @JoinColumn(name="car_id"),
+            inverseJoinColumns = @JoinColumn(name ="person_id")
+    )
+    private Person person;
     public Car(String model) {
         this.model = model;
     }
