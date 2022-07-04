@@ -47,8 +47,6 @@ public class Main {
         session.save(new Person("Vasya", "2000.03.09", 0665467456, "vasyaasd@gmail.com", new IdCode(004), cars_vasya, books));
         session.save(new Person("Anya", "1998.01.15", 447737890, "anyaqwe@gmail.com", new IdCode(005), cars_anya, books));
 
-
-
         session.close();
         sessionFactory.close();
     }

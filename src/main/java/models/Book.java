@@ -12,12 +12,12 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Book implements Serializable {
+public class Book implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "person_book",
             joinColumns = @JoinColumn(name = "book_id"),

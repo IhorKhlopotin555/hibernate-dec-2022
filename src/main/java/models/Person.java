@@ -31,6 +31,7 @@ public class Person {
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "car_id")
     )
+    @ToString.Exclude
     private List<Car> cars;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
